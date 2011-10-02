@@ -1,4 +1,4 @@
-NHelpfulException
+NSure
 ====
 
-A simple wrapper for System.Exception to help make exceptions more meaningful.
+Simple fluent assertions for .NET.
