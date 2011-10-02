@@ -9,6 +9,7 @@ Examples:
 
 ```C#
 
+
 	Ensure.That(myObject != null, "myObject is null.");
 	
 ```
@@ -17,14 +18,16 @@ Examples:
 
 ```C#
 
+
 	Ensure.That(myObject != null, "myObject is null.",
 				resolutionSuggestions:new[]{ "Make sure myObject is instantiated.", "Go make some more coffee." });
 				
-`
+```
 
 **Custom exception type:**
 
 ```C#
+
 
 	Ensure.That<MyCustomException>(myObject != null, "myObject is null.");
 	
@@ -33,6 +36,7 @@ Examples:
 **Assertion chaining:**
 
 ```C#
+
 
 	Ensure.That<MyCustomException>(myObject != null, "myObject is null.")
 		  .And(myOtherObject != null, "myOtherObject is null.");
