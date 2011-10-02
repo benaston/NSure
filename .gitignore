@@ -22,3 +22,6 @@ _ReSharper.*
 *.swp
 .DS_Store
 Thumbs.db
+
+#Misc
+#TestResult.xml
