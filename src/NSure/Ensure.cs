@@ -22,46 +22,22 @@
         ///   to a string (e.g. in the default ASP.NET exception 
         ///   response).
         /// </summary>
-        public static AssertionResult That<TException>(bool assertion, string message)
+        public static AssertionResult That<TException>(bool assertion, string failureMessage, string[] resolutionSuggestions = default(string[]))
             where TException : HelpfulException
         {
             if (!assertion)
             {
-                throw (TException)Activator.CreateInstance(typeof(TException), message);
+                try
+                {
+                    throw (TException) Activator.CreateInstance(typeof (TException), failureMessage, resolutionSuggestions, null);
+                }
+                catch(MissingMethodException e)
+                {
+                    throw new InvalidAssertionFailureExceptionException<TException>(e);
+                }
             }
 
             return new AssertionResult();
-        }
-
-        public static AssertionResult That<TException>(bool assertion, string message, string source)
-            where TException : HelpfulException
-        {
-            if (!assertion)
-            {
-                var e = (TException)Activator.CreateInstance(typeof(TException), message);
-                e.Source = source;
-                throw e;
-            }
-
-            return new AssertionResult();
-        }
-
-        public static void That(bool b, Action failureAction)
-        {
-            if (!b)
-            {
-                failureAction();
-                throw new Exception("Unexpected condition.");
-            }
-        }
-
-        /// <summary>
-        ///   Note: no exception thrown.
-        /// </summary>
-        public static void That<TResponse>(bool b, Func<TResponse, TResponse> failureAction, out TResponse response)
-            where TResponse : new()
-        {
-            response = !b ? failureAction(new TResponse()) : default(TResponse);
         }
     }
 }

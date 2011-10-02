@@ -45,8 +45,9 @@
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NHelpfulException, Version=1.0.4291.39441, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NHelpfulException.1.0.4291.39441\lib\net40\NHelpfulException.dll</HintPath>
+    <Reference Include="NHelpfulException, Version=1.0.4292.24494, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NHelpfulException.1.0.4292.24494\lib\net40\NHelpfulException.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -59,10 +60,12 @@
   <ItemGroup>
     <Compile Include="AssertionResult.cs" />
     <Compile Include="Ensure.cs" />
+    <Compile Include="InvalidAssertionFailureException.cs" />
     <Compile Include="ObjectExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="NSure.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

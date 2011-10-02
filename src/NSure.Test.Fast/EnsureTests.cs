@@ -1,5 +1,7 @@
 ﻿namespace NSure.Test.Fast
 {
+    using System;
+    using NHelpfulException;
     using NUnit.Framework;
 
     [TestFixture]
@@ -9,6 +11,76 @@
         public void EnsureThat_SuppliedWithTrue_DoesNotThrowAnException()
         {
             Assert.DoesNotThrow(() => Ensure.That(true, "m"));
+        }
+
+        [Test]
+        public void EnsureThat_SuppliedWithFalseAndExceptionTypeNotSpecified_ThrowsAnException()
+        {
+            Assert.Throws<Exception>(() => Ensure.That(false, "m"));
+        }
+
+        [Test]
+        public void EnsureThat_SuppliedWithFalseAndAMessage_ThrowsAnExceptionWithTheCorrectMessage()
+        {
+            const string message = "My message.";
+
+            try
+            {
+                Ensure.That(false, message);
+            }
+            catch (Exception e)
+            {
+                Assert.That(e.Message == message);
+            }
+        }
+
+        [Test]
+        public void EnsureThat_SuppliedWithExceptionTypeAndFalse_ThrowsATestException()
+        {
+            Assert.Throws<TestException>(() => Ensure.That<TestException>(false, "m"));
+        }
+
+        [Test]
+        public void EnsureThat_SuppliedWithExceptionTypeFalseAndAMessage_ThrowsATestExceptionWithTheCorrectMessage()
+        {
+            const string message = "My message.";
+
+            try
+            {
+                Ensure.That<TestException>(false, message);
+            }
+            catch (TestException e)
+            {
+                Assert.That(e.Message == message);
+            }
+        }
+
+        [Test]
+        public void EnsureThat_SuppliedWithExceptionTypeFalseAndAMessageAndResolutionSuggestions_ThrowsATestExceptionWithTheCorrectMessage()
+        {
+            const string message = "My message.";
+            var resolutionSuggestions = new[] { "Try A.", "Try B." };
+
+            try
+            {
+                Ensure.That<TestException>(false, message, resolutionSuggestions);
+            }
+            catch (TestException e)
+            {
+                Assert.That(e.Message == message + 
+                                         HelpfulException.ResolutionSuggestionListPrefix + 
+                                         HelpfulException.ResolutionSuggestionPrefix + 
+                                         resolutionSuggestions[0] + 
+                                         HelpfulException.ResolutionSuggestionDelimiter +
+                                         HelpfulException.ResolutionSuggestionPrefix + 
+                                         resolutionSuggestions[1] + 
+                                         HelpfulException.ResolutionSuggestionListSuffix);
+            }
+        }
+
+        private class TestException : HelpfulException
+        {
+            public TestException(string problemDescription, string[] resolutionSuggestions = default(string[]), Exception innerException = default(Exception)) : base(problemDescription, resolutionSuggestions, innerException) { }
         }
     }
 }
