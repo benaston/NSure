@@ -8,7 +8,6 @@ Examples:
 **Simple assertion:**
 
 <code>
-	
 	Ensure.That(myObject != null, "myObject is null.");
 	
 </code>
@@ -16,7 +15,6 @@ Examples:
 **Assertion with suggestions for resolution in the failure case:**
 
 <code>
-	
 	Ensure.That(myObject != null, "myObject is null.", 
 				
 				resolutionSuggestions:new[]{ "Make sure myObject is instantiated.", "Go make some more coffee." });
@@ -26,7 +24,6 @@ Examples:
 **Custom exception type:**
 
 <code>
-	
 	Ensure.That<MyCustomException>(myObject != null, "myObject is null.");
 	
 </code>
@@ -34,9 +31,8 @@ Examples:
 **Assertion chaining:**
 
 <code>
-
 	Ensure.That<MyCustomException>(myObject != null, "myObject is null.")
 
-	.And(myOtherObject != null, "myOtherObject is null.");
+		  .And(myOtherObject != null, "myOtherObject is null.");
 	
 </code>
