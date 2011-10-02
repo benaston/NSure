@@ -81,7 +81,19 @@
         [Test]
         public void EnsureThat_SuppliedWithFalseAndInvalidExceptionType_ThrowsAnException()
         {
-            Assert.Throws<InvalidAssertionFailureExceptionException<InvalidTestException>>(() => Ensure.That<InvalidTestException>(false, "m"));
+            Assert.Throws<InvalidAssertionFailureExceptionTypeException<InvalidTestException>>(() => Ensure.That<InvalidTestException>(false, "m"));
+        }
+
+        [Test]
+        public void EnsureThatAnd_ChainedAssertionFails_ThrowsAnException()
+        {
+            Assert.Throws<Exception>(() => Ensure.That<TestException>(true, String.Empty).And(false, "m"));
+        }
+
+        [Test]
+        public void EnsureThatAndWithExceptionTypeSpecified_ChainedAssertionFails_ThrowsAnException()
+        {
+            Assert.Throws<TestException>(() => Ensure.That(true, String.Empty).And<TestException>(false, "m"));
         }
 
         private class TestException : HelpfulException

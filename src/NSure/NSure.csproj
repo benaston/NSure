@@ -61,7 +61,6 @@
     <Compile Include="AssertionResult.cs" />
     <Compile Include="Ensure.cs" />
     <Compile Include="InvalidAssertionFailureException.cs" />
-    <Compile Include="ObjectExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

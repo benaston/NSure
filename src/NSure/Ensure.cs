@@ -33,7 +33,7 @@
                 }
                 catch(MissingMethodException e)
                 {
-                    throw new InvalidAssertionFailureExceptionException<TException>(e);
+                    throw new InvalidAssertionFailureExceptionTypeException<TException>(e);
                 }
             }
 

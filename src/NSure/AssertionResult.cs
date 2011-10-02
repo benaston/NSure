@@ -1,6 +1,5 @@
 ﻿namespace NSure
 {
-    using System;
     using NHelpfulException;
 
     /// <summary>
@@ -9,40 +8,15 @@
     /// </summary>
     public class AssertionResult
     {
-        public AssertionResult And(bool assertion, string message)
+        public AssertionResult And(bool b, string problemDescription)
         {
-            if (!assertion)
-            {
-                var e = new Exception(message);
-                throw e;
-            }
-
-            return new AssertionResult();
+            return Ensure.That(b, problemDescription);
         }
 
-        public AssertionResult And<TException>(bool assertion, string message, string source)
+        public AssertionResult And<TException>(bool assertion, string problemDescription, string[] resolutionSuggestions = default(string[]))
             where TException : HelpfulException
         {
-            if (!assertion)
-            {
-                var e = (TException)Activator.CreateInstance(typeof(TException), message);
-                e.Source = source;
-                throw e;
-            }
-
-            return new AssertionResult();
-        }
-
-        public AssertionResult And<TException>(bool assertion, string message)
-            where TException : HelpfulException
-        {
-            if (!assertion)
-            {
-                var e = (TException) Activator.CreateInstance(typeof (TException), message);
-                throw e;
-            }
-
-            return new AssertionResult();
+            return Ensure.That<TException>(assertion, problemDescription, resolutionSuggestions);
         }
     }
 }
