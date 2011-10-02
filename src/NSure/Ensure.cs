@@ -9,9 +9,9 @@
     /// </summary>
     public class Ensure
     {
-        public static AssertionResult That(bool b, string message)
+        public static AssertionResult That(bool b, string problemDescription)
         {
-            if (!b) throw new Exception(message);
+            if (!b) throw new Exception(problemDescription);
 
             return new AssertionResult();
         }
@@ -22,14 +22,14 @@
         ///   to a string (e.g. in the default ASP.NET exception 
         ///   response).
         /// </summary>
-        public static AssertionResult That<TException>(bool assertion, string failureMessage, string[] resolutionSuggestions = default(string[]))
+        public static AssertionResult That<TException>(bool assertion, string problemDescription, string[] resolutionSuggestions = default(string[]))
             where TException : HelpfulException
         {
             if (!assertion)
             {
                 try
                 {
-                    throw (TException) Activator.CreateInstance(typeof (TException), failureMessage, resolutionSuggestions, null);
+                    throw (TException) Activator.CreateInstance(typeof (TException), problemDescription, resolutionSuggestions, null);
                 }
                 catch(MissingMethodException e)
                 {
