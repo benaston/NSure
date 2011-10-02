@@ -78,9 +78,20 @@
             }
         }
 
+        [Test]
+        public void EnsureThat_SuppliedWithFalseAndInvalidExceptionType_ThrowsAnException()
+        {
+            Assert.Throws<InvalidAssertionFailureExceptionException<InvalidTestException>>(() => Ensure.That<InvalidTestException>(false, "m"));
+        }
+
         private class TestException : HelpfulException
         {
             public TestException(string problemDescription, string[] resolutionSuggestions = default(string[]), Exception innerException = default(Exception)) : base(problemDescription, resolutionSuggestions, innerException) { }
+        }
+
+        private class InvalidTestException : HelpfulException
+        {
+            public InvalidTestException(string problemDescription) : base(problemDescription, null, null) { }
         }
     }
 }
