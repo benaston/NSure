@@ -24,4 +24,4 @@ _ReSharper.*
 Thumbs.db
 
 #Misc
-#TestResult.xml
+TestResult.xml
