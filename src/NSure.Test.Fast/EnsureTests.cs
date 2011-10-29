@@ -88,57 +88,8 @@
             }
             catch (TestException e)
             {
-                Assert.That(e.Message == "Failing assertion: 'a == 2'.");
-            }
-        }
+                Assert.That(e.Message == "Failing assertion: '(value(NSure.Test.Fast.EnsureTests+<>c__DisplayClass6).a == 2)'.");
 
-        [Test]
-        public void EnsureThat_Expression_ReturnsCorrectMessage2()
-        {
-            const string message = "My message.";
-            var resolutionSuggestions = new[] { "Try A.", "Try B." };
-
-            try
-            {
-                var a = 1;
-                Ensure.That<TestException>(() => a.ToString() == "2", message, resolutionSuggestions);
-            }
-            catch (TestException e)
-            {
-                Assert.That(e.Message == message +
-                                         "\r\nFailing assertion: 'a.ToString() == \"2\"'." +
-                                         HelpfulException.ResolutionSuggestionListPrefix +
-                                         HelpfulException.ResolutionSuggestionPrefix +
-                                         resolutionSuggestions[0] +
-                                         HelpfulException.ResolutionSuggestionDelimiter +
-                                         HelpfulException.ResolutionSuggestionPrefix +
-                                         resolutionSuggestions[1] +
-                                         HelpfulException.ResolutionSuggestionListSuffix);
-            }
-        }
-
-        [Test]
-        public void EnsureThat_Expression_ReturnsCorrectMessage3()
-        {
-            const string message = "My message.";
-            var resolutionSuggestions = new[] { "Try A.", "Try B." };
-
-            try
-            {
-                Func<bool> a = () => false;
-                Ensure.That<TestException>(() => a(), message, resolutionSuggestions);
-            }
-            catch (TestException e)
-            {
-                Assert.That(e.Message == message +
-                                         "\r\nFailing assertion: 'a'." +
-                                         HelpfulException.ResolutionSuggestionListPrefix +
-                                         HelpfulException.ResolutionSuggestionPrefix +
-                                         resolutionSuggestions[0] +
-                                         HelpfulException.ResolutionSuggestionDelimiter +
-                                         HelpfulException.ResolutionSuggestionPrefix +
-                                         resolutionSuggestions[1] +
-                                         HelpfulException.ResolutionSuggestionListSuffix);
             }
         }
 

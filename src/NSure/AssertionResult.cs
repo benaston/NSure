@@ -1,5 +1,7 @@
 ﻿namespace NSure
 {
+    using System;
+    using System.Linq.Expressions;
     using NHelpfulException;
 
     /// <summary>
@@ -17,6 +19,14 @@
             where TException : HelpfulException
         {
             return Ensure.That<TException>(assertion, problemDescription, resolutionSuggestions);
+        }
+
+        public AssertionResult And<TException>(Expression<Func<bool>> func,
+                                                       string problemDescription = "",
+                                                       string[] resolutionSuggestions = default(string[]))
+            where TException : HelpfulException
+        {
+            return Ensure.That<TException>(func, problemDescription, resolutionSuggestions);
         }
     }
 }
