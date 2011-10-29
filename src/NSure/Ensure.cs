@@ -1,6 +1,8 @@
 ﻿namespace NSure
 {
     using System;
+    using System.ComponentModel;
+    using System.Linq.Expressions;
     using NHelpfulException;
 
     /// <summary>
@@ -9,6 +11,37 @@
     /// </summary>
     public class Ensure
     {
+        /// <summary>
+        ///   Throws an exception with a meaningful error message,
+        ///   based upon analysis of the expression evaluated.
+        ///   WARNING: this overload is significantly slower than 
+        ///   the overload that simply takes a bool.
+        /// </summary>
+        [Description("Accepts an expression. WARNING: this overload is significantly slower than the overload that simply takes a bool.")]
+        public static AssertionResult That<TException>(Expression<Func<bool>> func, 
+                                                       string problemDescription = "", 
+                                                       string[] resolutionSuggestions = default(string[]))
+            where TException : HelpfulException
+        {
+            if (!func.Compile()())
+            {
+                try
+                {
+                    var expr = func.Body.ToString().Substring(func.Body.ToString().IndexOf(')') + 2).TrimEnd(')');
+
+                    var fullDescription = problemDescription == String.Empty ? string.Format("Failing assertion: '{0}'.", expr) : string.Format("{0}\r\nFailing assertion: '{1}'.", problemDescription, expr);
+
+                    throw (TException)Activator.CreateInstance(typeof(TException), fullDescription, resolutionSuggestions, null);
+                }
+                catch (MissingMethodException e)
+                {
+                    throw new InvalidAssertionFailureExceptionTypeException<TException>(e);
+                }
+            }
+
+            return new AssertionResult();
+        }
+
         public static AssertionResult That(bool b, string problemDescription)
         {
             if (!b) throw new Exception(problemDescription);
@@ -29,9 +62,10 @@
             {
                 try
                 {
-                    throw (TException) Activator.CreateInstance(typeof (TException), problemDescription, resolutionSuggestions, null);
+
+                    throw (TException)Activator.CreateInstance(typeof(TException), problemDescription, resolutionSuggestions, null);
                 }
-                catch(MissingMethodException e)
+                catch (MissingMethodException e)
                 {
                     throw new InvalidAssertionFailureExceptionTypeException<TException>(e);
                 }
