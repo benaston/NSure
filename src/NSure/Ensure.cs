@@ -2,9 +2,7 @@
 {
     using System;
     using System.ComponentModel;
-    using System.Linq;
     using System.Linq.Expressions;
-    using System.Text.RegularExpressions;
     using NHelpfulException;
 
     /// <summary>
@@ -13,11 +11,10 @@
     /// </summary>
     public class Ensure
     {
-        public static AssertionResult That(bool b, string problemDescription)
+        public static AssertionResult That(bool assertion, string problemDescription,
+                                           string[] resolutionSuggestions = default(string[]))
         {
-            if (!b) throw new Exception(problemDescription);
-
-            return new AssertionResult();
+            return That<HelpfulException>(assertion, problemDescription, resolutionSuggestions);
         }
 
         /// <summary>
@@ -26,15 +23,16 @@
         ///   to a string (e.g. in the default ASP.NET exception 
         ///   response).
         /// </summary>
-        public static AssertionResult That<TException>(bool assertion, string problemDescription, string[] resolutionSuggestions = default(string[]))
+        public static AssertionResult That<TException>(bool assertion, string problemDescription,
+                                                       string[] resolutionSuggestions = default(string[]))
             where TException : HelpfulException
         {
             if (!assertion)
             {
                 try
                 {
-
-                    throw (TException)Activator.CreateInstance(typeof(TException), problemDescription, resolutionSuggestions, null);
+                    throw (TException)
+                          Activator.CreateInstance(typeof (TException), problemDescription, resolutionSuggestions, null);
                 }
                 catch (MissingMethodException e)
                 {
@@ -48,10 +46,13 @@
         /// <summary>
         ///   Throws an exception with a meaningful error message,
         ///   based upon analysis of the expression evaluated.
-        ///   WARNING: this overload is significantly slower than 
-        ///   the overload that simply takes a bool.
+        ///   WARNING: this overload is experimental and 
+        ///   significantly slower than the overload that simply 
+        ///   takes a bool.
         /// </summary>
-        [Description("Accepts an expression. WARNING: this overload is significantly slower than the overload that simply takes a bool.")]
+        [Description(
+            "Accepts an expression. WARNING: this overload is significantly slower than the overload that simply takes a bool."
+            )]
         public static AssertionResult That<TException>(Expression<Func<bool>> func,
                                                        string problemDescription = "",
                                                        string[] resolutionSuggestions = default(string[]))
@@ -62,9 +63,13 @@
                 try
                 {
                     var expr = func.Body.ToString();
-                    var fullDescription = problemDescription == String.Empty ? string.Format("Failing assertion: '{0}'.", expr) : string.Format("{0}\r\nFailing assertion: '{1}'.", problemDescription, expr);
+                    var fullDescription = problemDescription == String.Empty
+                                              ? string.Format("Failing assertion: '{0}'.", expr)
+                                              : string.Format("{0}\r\nFailing assertion: '{1}'.", problemDescription,
+                                                              expr);
 
-                    throw (TException)Activator.CreateInstance(typeof(TException), fullDescription, resolutionSuggestions, null);
+                    throw (TException)
+                          Activator.CreateInstance(typeof (TException), fullDescription, resolutionSuggestions, null);
                 }
                 catch (MissingMethodException e)
                 {

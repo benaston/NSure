@@ -16,7 +16,7 @@
         [Test]
         public void EnsureThat_SuppliedWithFalseAndExceptionTypeNotSpecified_ThrowsAnException()
         {
-            Assert.Throws<Exception>(() => Ensure.That(false, "m"));
+            Assert.Throws<HelpfulException>(() => Ensure.That(false, "m"));
         }
 
         [Test]
@@ -102,7 +102,7 @@
         [Test]
         public void EnsureThatAnd_ChainedAssertionFails_ThrowsAnException()
         {
-            Assert.Throws<Exception>(() => Ensure.That<TestException>(true, String.Empty).And(false, "m"));
+            Assert.Throws<HelpfulException>(() => Ensure.That<TestException>(true, String.Empty).And(false, "m"));
         }
 
         [Test]

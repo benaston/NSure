@@ -10,9 +10,9 @@
     /// </summary>
     public class AssertionResult
     {
-        public AssertionResult And(bool b, string problemDescription)
+        public AssertionResult And(bool assertion, string problemDescription, string[] resolutionSuggestions = default(string[]))
         {
-            return Ensure.That(b, problemDescription);
+            return Ensure.That<HelpfulException>(assertion, problemDescription, resolutionSuggestions);
         }
 
         public AssertionResult And<TException>(bool assertion, string problemDescription, string[] resolutionSuggestions = default(string[]))
@@ -22,7 +22,7 @@
         }
 
         public AssertionResult And<TException>(Expression<Func<bool>> func,
-                                                       string problemDescription = "",
+                                                       string problemDescription,
                                                        string[] resolutionSuggestions = default(string[]))
             where TException : HelpfulException
         {
