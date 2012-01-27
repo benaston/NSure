@@ -49,3 +49,9 @@ How to build and/or run the tests:
 1. Run `/build/build.bat`
 1. Type in the desired option
 1. Hit return
+
+
+License & Copyright
+--------
+
+This software is released under the GNU Lesser GPL. It is Copright 2011, Ben Aston. I may be contacted at ben@bj.ma.
